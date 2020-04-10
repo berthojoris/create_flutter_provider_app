@@ -29,9 +29,6 @@ class TodosScreen extends StatelessWidget {
                 user != null
                     ? "Welcome, " + user.displayName
                     : AppStrings.homeAppBarTitle,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
               );
             }),
         actions: <Widget>[
