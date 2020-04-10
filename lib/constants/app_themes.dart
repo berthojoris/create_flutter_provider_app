@@ -4,7 +4,7 @@ import 'package:noteapp/constants/app_font_family.dart';
 class AppThemes {
   AppThemes._();
 
-  //constants color range for light theme
+  // CONSTANTS COLOR RANGE FOR LIGHT THEME
   static const Color _lightPrimaryColor = Colors.black;
   static const Color _lightPrimaryVariantColor = Colors.white;
   static const Color _lightSecondaryColor = Colors.green;
@@ -14,17 +14,29 @@ class AppThemes {
   static Color _lightIconColor = Colors.orangeAccent;
   static Color _lightSnackBarBackgroundErrorColor = Colors.redAccent;
 
-  //text theme for light theme
-  static final TextStyle _lightScreenHeadingTextStyle =
-      TextStyle(fontSize: 20.0, color: _lightOnPrimaryColor);
-  static final TextStyle _lightScreenTaskNameTextStyle =
-      TextStyle(fontSize: 16.0, color: _lightOnPrimaryColor);
-  static final TextStyle _lightScreenTaskDurationTextStyle =
-      TextStyle(fontSize: 14.0, color: Colors.grey);
+  // TEXT THEME FOR LIGHT THEME
+  static final TextStyle _lightScreenHeadingTextStyle = TextStyle(
+    fontSize: 20.0,
+    color: _lightOnPrimaryColor,
+  );
+  static final TextStyle _lightScreenTaskNameTextStyle = TextStyle(
+    fontSize: 16.0,
+    color: _lightOnPrimaryColor,
+  );
+  static final TextStyle _lightScreenTaskDurationTextStyle = TextStyle(
+    fontSize: 14.0,
+    color: Colors.grey,
+  );
   static final TextStyle _lightScreenButtonTextStyle = TextStyle(
-      fontSize: 14.0, color: _lightOnPrimaryColor, fontWeight: FontWeight.w500);
+    fontSize: 14.0,
+    color: _lightOnPrimaryColor,
+    fontWeight: FontWeight.w500,
+  );
   static final TextStyle _lightScreenCaptionTextStyle = TextStyle(
-      fontSize: 12.0, color: _lightAppBarColor, fontWeight: FontWeight.w100);
+    fontSize: 12.0,
+    color: _lightAppBarColor,
+    fontWeight: FontWeight.w100,
+  );
 
   static final TextTheme _lightTextTheme = TextTheme(
     headline: _lightScreenHeadingTextStyle,
@@ -36,7 +48,7 @@ class AppThemes {
     caption: _lightScreenCaptionTextStyle,
   );
 
-  //constants color range for dark theme
+  // CONSTANTS COLOR RANGE FOR DARK THEME
   static const Color _darkPrimaryColor = Colors.white;
   static const Color _darkPrimaryVariantColor = Colors.black;
   static const Color _darkSecondaryColor = Colors.white;
@@ -46,7 +58,7 @@ class AppThemes {
   static Color _darkIconColor = Colors.deepPurpleAccent;
   static Color _darkSnackBarBackgroundErrorColor = Colors.redAccent;
 
-  //text theme for dark theme
+  // TEXT THEME FOR DARK THEME
   static final TextStyle _darkScreenHeadingTextStyle =
       _lightScreenHeadingTextStyle.copyWith(color: _darkOnPrimaryColor);
   static final TextStyle _darkScreenTaskNameTextStyle =
@@ -68,7 +80,7 @@ class AppThemes {
     caption: _darkScreenCaptionTextStyle,
   );
 
-  //the light theme
+  // =========================================== THE LIGHT THEME ===========================================
   static final ThemeData lightTheme = ThemeData(
     fontFamily: AppFontFamily.productSans,
     scaffoldBackgroundColor: _lightPrimaryVariantColor,
@@ -77,7 +89,9 @@ class AppThemes {
     ),
     appBarTheme: AppBarTheme(
       color: _lightAppBarColor,
-      iconTheme: IconThemeData(color: _lightOnPrimaryColor),
+      iconTheme: IconThemeData(
+        color: _lightOnPrimaryColor,
+      ),
       textTheme: _lightTextTheme,
     ),
     colorScheme: ColorScheme.light(
@@ -86,25 +100,30 @@ class AppThemes {
       secondary: _lightSecondaryColor,
       onPrimary: _lightOnPrimaryColor,
     ),
-    snackBarTheme:
-        SnackBarThemeData(backgroundColor: _lightSnackBarBackgroundErrorColor),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: _lightSnackBarBackgroundErrorColor,
+    ),
     iconTheme: IconThemeData(
       color: _lightIconColor,
     ),
-    popupMenuTheme: PopupMenuThemeData(color: _lightAppBarColor),
+    popupMenuTheme: PopupMenuThemeData(
+      color: _lightAppBarColor,
+    ),
     textTheme: _lightTextTheme,
     buttonTheme: ButtonThemeData(
-        buttonColor: _lightButtonPrimaryColor,
-        textTheme: ButtonTextTheme.primary),
+      buttonColor: _lightButtonPrimaryColor,
+      textTheme: ButtonTextTheme.primary,
+    ),
     unselectedWidgetColor: _lightPrimaryColor,
     inputDecorationTheme: InputDecorationTheme(
-        fillColor: _lightPrimaryColor,
-        labelStyle: TextStyle(
-          color: _lightPrimaryColor,
-        )),
+      fillColor: _lightPrimaryColor,
+      labelStyle: TextStyle(
+        color: _lightPrimaryColor,
+      ),
+    ),
   );
 
-  //the dark theme
+  // =========================================== THE DARK THEME ===========================================
   static final ThemeData darkTheme = ThemeData(
     fontFamily: AppFontFamily.productSans,
     scaffoldBackgroundColor: _darkPrimaryVariantColor,
@@ -113,7 +132,9 @@ class AppThemes {
     ),
     appBarTheme: AppBarTheme(
       color: _darkAppBarColor,
-      iconTheme: IconThemeData(color: _darkOnPrimaryColor),
+      iconTheme: IconThemeData(
+        color: _darkOnPrimaryColor,
+      ),
       textTheme: _darkTextTheme,
     ),
     colorScheme: ColorScheme.light(
@@ -122,21 +143,26 @@ class AppThemes {
       secondary: _darkSecondaryColor,
       onPrimary: _darkOnPrimaryColor,
     ),
-    snackBarTheme:
-        SnackBarThemeData(backgroundColor: _darkSnackBarBackgroundErrorColor),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: _darkSnackBarBackgroundErrorColor,
+    ),
     iconTheme: IconThemeData(
       color: _darkIconColor,
     ),
-    popupMenuTheme: PopupMenuThemeData(color: _darkAppBarColor),
+    popupMenuTheme: PopupMenuThemeData(
+      color: _darkAppBarColor,
+    ),
     textTheme: _darkTextTheme,
     buttonTheme: ButtonThemeData(
-        buttonColor: _darkButtonPrimaryColor,
-        textTheme: ButtonTextTheme.primary),
+      buttonColor: _darkButtonPrimaryColor,
+      textTheme: ButtonTextTheme.primary,
+    ),
     unselectedWidgetColor: _darkPrimaryColor,
     inputDecorationTheme: InputDecorationTheme(
-        fillColor: _darkPrimaryColor,
-        labelStyle: TextStyle(
-          color: _darkPrimaryColor,
-        )),
+      fillColor: _darkPrimaryColor,
+      labelStyle: TextStyle(
+        color: _darkPrimaryColor,
+      ),
+    ),
   );
 }
