@@ -68,12 +68,16 @@ class AuthProvider extends ChangeNotifier {
 
   //Method for new user registration using email and password
   Future<UserModel> registerWithEmailAndPassword(
-      String email, String password) async {
+      String email, String profilName, String password) async {
     try {
       _status = Status.Registering;
       notifyListeners();
       final AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+
+      UserUpdateInfo userUpdateInfo = UserUpdateInfo();
+      userUpdateInfo.displayName = profilName;
+      result.user.updateProfile(userUpdateInfo);
 
       return _userFromFirebase(result.user);
     } catch (e) {

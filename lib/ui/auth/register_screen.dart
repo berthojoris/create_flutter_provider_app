@@ -12,6 +12,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _emailController;
+  TextEditingController _profileNameController;
   TextEditingController _passwordController;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -20,6 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     super.initState();
     _emailController = TextEditingController(text: "");
+    _profileNameController = TextEditingController(text: "");
     _passwordController = TextEditingController(text: "");
   }
 
@@ -42,6 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void dispose() {
     _emailController.dispose();
+    _profileNameController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -66,6 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.emailAddress,
                   controller: _emailController,
                   style: Theme.of(context).textTheme.body1,
                   validator: (value) =>
@@ -77,6 +81,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       labelText: AppStrings.loginTxtEmail,
                       border: OutlineInputBorder()),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: TextFormField(
+                    controller: _profileNameController,
+                    style: Theme.of(context).textTheme.body1,
+                    validator: (value) => value.isEmpty
+                        ? AppStrings.loginTxtErrorProfileName
+                        : null,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: Theme.of(context).iconTheme.color,
+                        ),
+                        labelText: AppStrings.loginTxtProfileName,
+                        border: OutlineInputBorder()),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -114,6 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             UserModel userModel =
                                 await authProvider.registerWithEmailAndPassword(
                                     _emailController.text,
+                                    _profileNameController.text,
                                     _passwordController.text);
 
                             if (userModel == null) {
