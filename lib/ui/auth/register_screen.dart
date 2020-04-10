@@ -53,126 +53,135 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final authProvider = Provider.of<AuthProvider>(context);
 
     return Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FlutterLogo(
-                    size: 128,
-                  ),
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FlutterLogo(
+                  size: 128,
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: _emailController,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                controller: _emailController,
+                style: Theme.of(context).textTheme.body1,
+                validator: (value) =>
+                    value.isEmpty ? AppStrings.loginTxtErrorEmail : null,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  labelText: AppStrings.loginTxtEmail,
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: TextFormField(
+                  controller: _profileNameController,
                   style: Theme.of(context).textTheme.body1,
-                  validator: (value) =>
-                      value.isEmpty ? AppStrings.loginTxtErrorEmail : null,
+                  validator: (value) => value.isEmpty
+                      ? AppStrings.loginTxtErrorProfileName
+                      : null,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: Theme.of(context).iconTheme.color,
+                    prefixIcon: Icon(
+                      Icons.lock,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    labelText: AppStrings.loginTxtProfileName,
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: TextFormField(
+                  obscureText: true,
+                  maxLength: 12,
+                  controller: _passwordController,
+                  style: Theme.of(context).textTheme.body1,
+                  validator: (value) => value.length < 6
+                      ? AppStrings.loginTxtErrorPassword
+                      : null,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.lock,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    labelText: AppStrings.loginTxtPassword,
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              authProvider.status == Status.Registering
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : RaisedButton(
+                      child: Text(
+                        AppStrings.loginBtnSignUp,
+                        style: Theme.of(context).textTheme.button,
                       ),
-                      labelText: AppStrings.loginTxtEmail,
-                      border: OutlineInputBorder()),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: TextFormField(
-                    controller: _profileNameController,
-                    style: Theme.of(context).textTheme.body1,
-                    validator: (value) => value.isEmpty
-                        ? AppStrings.loginTxtErrorProfileName
-                        : null,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        labelText: AppStrings.loginTxtProfileName,
-                        border: OutlineInputBorder()),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: TextFormField(
-                    obscureText: true,
-                    maxLength: 12,
-                    controller: _passwordController,
-                    style: Theme.of(context).textTheme.body1,
-                    validator: (value) => value.length < 6
-                        ? AppStrings.loginTxtErrorPassword
-                        : null,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        labelText: AppStrings.loginTxtPassword,
-                        border: OutlineInputBorder()),
-                  ),
-                ),
-                authProvider.status == Status.Registering
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : RaisedButton(
-                        child: Text(
-                          AppStrings.loginBtnSignUp,
-                          style: Theme.of(context).textTheme.button,
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            FocusScope.of(context)
-                                .unfocus(); //to hide the keyboard - if any
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          FocusScope.of(context)
+                              .unfocus(); //to hide the keyboard - if any
 
-                            UserModel userModel =
-                                await authProvider.registerWithEmailAndPassword(
-                                    _emailController.text,
-                                    _profileNameController.text,
-                                    _passwordController.text);
+                          UserModel userModel =
+                              await authProvider.registerWithEmailAndPassword(
+                            _emailController.text,
+                            _profileNameController.text,
+                            _passwordController.text,
+                          );
 
-                            if (userModel == null) {
-                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          if (userModel == null) {
+                            _scaffoldKey.currentState.showSnackBar(
+                              SnackBar(
                                 content: Text(AppStrings.loginTxtErrorSignIn),
-                              ));
-                            }
+                              ),
+                            );
                           }
-                        }),
-                authProvider.status == Status.Registering
-                    ? Center(
-                        child: null,
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 48),
-                        child: Center(
-                            child: Text(
+                        }
+                      },
+                    ),
+              authProvider.status == Status.Registering
+                  ? Center(
+                      child: null,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 48),
+                      child: Center(
+                        child: Text(
                           AppStrings.loginTxtHaveAccount,
                           style: Theme.of(context).textTheme.button,
-                        )),
+                        ),
                       ),
-                authProvider.status == Status.Registering
-                    ? Center(
-                        child: null,
-                      )
-                    : FlatButton(
-                        child: Text(AppStrings.loginBtnLinkSignIn),
-                        textColor: Theme.of(context).iconTheme.color,
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(Routes.login);
-                        },
-                      ),
-              ],
-            ),
+                    ),
+              authProvider.status == Status.Registering
+                  ? Center(
+                      child: null,
+                    )
+                  : FlatButton(
+                      child: Text(AppStrings.loginBtnLinkSignIn),
+                      textColor: Theme.of(context).iconTheme.color,
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.login);
+                      },
+                    ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _buildBackground() {

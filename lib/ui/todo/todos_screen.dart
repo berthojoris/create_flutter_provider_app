@@ -22,31 +22,34 @@ class TodosScreen extends StatelessWidget {
       key: _scaffoldKey,
       appBar: AppBar(
         title: StreamBuilder(
-            stream: authProvider.user,
-            builder: (context, snapshot) {
-              final UserModel user = snapshot.data;
-              return Text(
-                user != null
-                    ? "Welcome, " + user.displayName
-                    : AppStrings.homeAppBarTitle,
-              );
-            }),
+          stream: authProvider.user,
+          builder: (context, snapshot) {
+            final UserModel user = snapshot.data;
+            return Text(
+              user != null
+                  ? "Welcome, " + user.displayName
+                  : AppStrings.homeAppBarTitle,
+            );
+          },
+        ),
         actions: <Widget>[
           StreamBuilder(
-              stream: firestoreDatabase.todosStream(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<TodoModel> todos = snapshot.data;
-                  return Visibility(
-                      visible: todos.isNotEmpty ? true : false,
-                      child: TodosExtraActions());
-                } else {
-                  return Container(
-                    width: 0,
-                    height: 0,
-                  );
-                }
-              }),
+            stream: firestoreDatabase.todosStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<TodoModel> todos = snapshot.data;
+                return Visibility(
+                  visible: todos.isNotEmpty ? true : false,
+                  child: TodosExtraActions(),
+                );
+              } else {
+                return Container(
+                  width: 0,
+                  height: 0,
+                );
+              }
+            },
+          ),
           IconButton(
               icon: Icon(Icons.settings),
               onPressed: () {
@@ -74,28 +77,30 @@ class TodosScreen extends StatelessWidget {
         Provider.of<FirestoreDatabase>(context, listen: false);
 
     return StreamBuilder(
-        stream: firestoreDatabase.todosStream(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<TodoModel> todos = snapshot.data;
-            if (todos.isNotEmpty) {
-              return ListView.separated(
-                itemCount: todos.length,
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    background: Container(
-                      color: Colors.red,
-                      child: Center(
-                          child: Text(
+      stream: firestoreDatabase.todosStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<TodoModel> todos = snapshot.data;
+          if (todos.isNotEmpty) {
+            return ListView.separated(
+              itemCount: todos.length,
+              itemBuilder: (context, index) {
+                return Dismissible(
+                  background: Container(
+                    color: Colors.red,
+                    child: Center(
+                      child: Text(
                         AppStrings.todosDismissibleMsgTxt,
                         style: TextStyle(color: Theme.of(context).canvasColor),
-                      )),
+                      ),
                     ),
-                    key: Key(todos[index].id),
-                    onDismissed: (direction) {
-                      firestoreDatabase.deleteTodo(todos[index]);
+                  ),
+                  key: Key(todos[index].id),
+                  onDismissed: (direction) {
+                    firestoreDatabase.deleteTodo(todos[index]);
 
-                      _scaffoldKey.currentState.showSnackBar(SnackBar(
+                    _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(
                         backgroundColor: Theme.of(context).appBarTheme.color,
                         content: Text(
                           AppStrings.todosSnackBarContent + todos[index].task,
@@ -110,43 +115,46 @@ class TodosScreen extends StatelessWidget {
                             firestoreDatabase.setTodo(todos[index]);
                           },
                         ),
-                      ));
-                    },
-                    child: ListTile(
-                      leading: Checkbox(
-                          value: todos[index].complete,
-                          onChanged: (value) {
-                            TodoModel todo = TodoModel(
-                                id: todos[index].id,
-                                task: todos[index].task,
-                                extraNote: todos[index].extraNote,
-                                complete: value);
-                            firestoreDatabase.setTodo(todo);
-                          }),
-                      title: Text(todos[index].task),
-                      onTap: () {
-                        Navigator.of(context).pushNamed(Routes.create_edit_todo,
-                            arguments: todos[index]);
+                      ),
+                    );
+                  },
+                  child: ListTile(
+                    leading: Checkbox(
+                      value: todos[index].complete,
+                      onChanged: (value) {
+                        TodoModel todo = TodoModel(
+                            id: todos[index].id,
+                            task: todos[index].task,
+                            extraNote: todos[index].extraNote,
+                            complete: value);
+                        firestoreDatabase.setTodo(todo);
                       },
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(height: 0.5);
-                },
-              );
-            } else {
-              return EmptyContentWidget();
-            }
-          } else if (snapshot.hasError) {
-            return EmptyContentWidget(
-              title: AppStrings.todosErrorTopMsgTxt,
-              message: AppStrings.todosErrorBottomMsgTxt,
+                    title: Text(todos[index].task),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(Routes.create_edit_todo,
+                          arguments: todos[index]);
+                    },
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider(height: 0.5);
+              },
             );
+          } else {
+            return EmptyContentWidget();
           }
-          return Center(
-            child: CircularProgressIndicator(),
+        } else if (snapshot.hasError) {
+          return EmptyContentWidget(
+            title: AppStrings.todosErrorTopMsgTxt,
+            message: AppStrings.todosErrorBottomMsgTxt,
           );
-        });
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }

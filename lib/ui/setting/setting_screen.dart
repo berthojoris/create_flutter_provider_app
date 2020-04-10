@@ -48,31 +48,37 @@ class SettingScreen extends StatelessWidget {
 
   _confirmSignOut(BuildContext context) {
     showPlatformDialog(
-        context: context,
-        builder: (_) => PlatformAlertDialog(
-              android: (_) => MaterialAlertDialogData(
-                  backgroundColor: Theme.of(context).appBarTheme.color),
-              title: Text(AppStrings.alertDialogTitle),
-              content: Text(AppStrings.alertDialogMessage),
-              actions: <Widget>[
-                PlatformDialogAction(
-                  child: PlatformText(AppStrings.alertDialogCancelBtn),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                PlatformDialogAction(
-                  child: PlatformText(AppStrings.alertDialogYesBtn),
-                  onPressed: () {
-                    final authProvider =
-                        Provider.of<AuthProvider>(context, listen: false);
+      context: context,
+      builder: (_) => PlatformAlertDialog(
+        android: (_) => MaterialAlertDialogData(
+          backgroundColor: Theme.of(context).appBarTheme.color,
+        ),
+        title: Text(
+          AppStrings.alertDialogTitle,
+        ),
+        content: Text(
+          AppStrings.alertDialogMessage,
+        ),
+        actions: <Widget>[
+          PlatformDialogAction(
+            child: PlatformText(AppStrings.alertDialogCancelBtn),
+            onPressed: () => Navigator.pop(context),
+          ),
+          PlatformDialogAction(
+            child: PlatformText(AppStrings.alertDialogYesBtn),
+            onPressed: () {
+              final authProvider =
+                  Provider.of<AuthProvider>(context, listen: false);
 
-                    authProvider.signOut();
+              authProvider.signOut();
 
-                    Navigator.pop(context);
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        Routes.login, ModalRoute.withName(Routes.login));
-                  },
-                )
-              ],
-            ));
+              Navigator.pop(context);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  Routes.login, ModalRoute.withName(Routes.login));
+            },
+          )
+        ],
+      ),
+    );
   }
 }

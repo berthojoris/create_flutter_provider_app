@@ -54,27 +54,26 @@ class _CreateEditTodoScreenState extends State<CreateEditTodoScreen> {
             : AppStrings.todosCreateEditAppBarTitleNewTxt),
         actions: <Widget>[
           FlatButton(
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  FocusScope.of(context).unfocus();
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                FocusScope.of(context).unfocus();
 
-                  final firestoreDatabase =
-                      Provider.of<FirestoreDatabase>(context, listen: false);
+                final firestoreDatabase =
+                    Provider.of<FirestoreDatabase>(context, listen: false);
 
-                  firestoreDatabase.setTodo(TodoModel(
-                      id: _todo != null
-                          ? _todo.id
-                          : documentIdFromCurrentDate(),
-                      task: _taskController.text,
-                      extraNote: _extraNoteController.text.length > 0
-                          ? _extraNoteController.text
-                          : "",
-                      complete: _checkboxCompleted));
+                firestoreDatabase.setTodo(TodoModel(
+                    id: _todo != null ? _todo.id : documentIdFromCurrentDate(),
+                    task: _taskController.text,
+                    extraNote: _extraNoteController.text.length > 0
+                        ? _extraNoteController.text
+                        : "",
+                    complete: _checkboxCompleted));
 
-                  Navigator.of(context).pop();
-                }
-              },
-              child: Text("Save"))
+                Navigator.of(context).pop();
+              }
+            },
+            child: Text("Save"),
+          )
         ],
       ),
       body: Center(
@@ -108,8 +107,9 @@ class _CreateEditTodoScreenState extends State<CreateEditTodoScreen> {
                     : null,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).iconTheme.color, width: 2)),
+                    borderSide: BorderSide(
+                        color: Theme.of(context).iconTheme.color, width: 2),
+                  ),
                   labelText: AppStrings.todosCreateEditTaskNameTxt,
                 ),
               ),
@@ -121,13 +121,15 @@ class _CreateEditTodoScreenState extends State<CreateEditTodoScreen> {
                   maxLines: 15,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Theme.of(context).iconTheme.color,
-                            width: 2)),
+                      borderSide: BorderSide(
+                          color: Theme.of(context).iconTheme.color, width: 2),
+                    ),
                     labelText: AppStrings.todosCreateEditNotesTxt,
                     alignLabelWithHint: true,
                     contentPadding: new EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 10.0),
+                      vertical: 10.0,
+                      horizontal: 10.0,
+                    ),
                   ),
                 ),
               ),
@@ -138,12 +140,15 @@ class _CreateEditTodoScreenState extends State<CreateEditTodoScreen> {
                   children: <Widget>[
                     Text(AppStrings.todosCreateEditCompletedTxt),
                     Checkbox(
-                        value: _checkboxCompleted,
-                        onChanged: (value) {
-                          setState(() {
+                      value: _checkboxCompleted,
+                      onChanged: (value) {
+                        setState(
+                          () {
                             _checkboxCompleted = value;
-                          });
-                        })
+                          },
+                        );
+                      },
+                    )
                   ],
                 ),
               )

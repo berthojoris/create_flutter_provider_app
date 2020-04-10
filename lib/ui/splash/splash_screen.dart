@@ -18,23 +18,26 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Center(
-            child: Text(
-          AppStrings.splashTitle,
-          style: TextStyle(
-            fontSize: Theme.of(context).textTheme.headline.fontSize,
-          ),
-        )),
-        FlutterLogo(
-          size: 128,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Center(
+              child: Text(
+                AppStrings.splashTitle,
+                style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.headline.fontSize,
+                ),
+              ),
+            ),
+            FlutterLogo(
+              size: 128,
+            ),
+          ],
         ),
-      ],
-    )));
+      ),
+    );
   }
 
   startTimer() {

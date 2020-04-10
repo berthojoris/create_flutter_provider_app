@@ -49,107 +49,114 @@ class _SignInScreenState extends State<SignInScreen> {
     final authProvider = Provider.of<AuthProvider>(context);
 
     return Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FlutterLogo(
-                    size: 128,
-                  ),
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FlutterLogo(
+                  size: 128,
                 ),
-                TextFormField(
-                  controller: _emailController,
+              ),
+              TextFormField(
+                controller: _emailController,
+                style: Theme.of(context).textTheme.body1,
+                validator: (value) =>
+                    value.isEmpty ? AppStrings.loginTxtErrorEmail : null,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                  labelText: AppStrings.loginTxtEmail,
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: TextFormField(
+                  obscureText: true,
+                  maxLength: 12,
+                  controller: _passwordController,
                   style: Theme.of(context).textTheme.body1,
-                  validator: (value) =>
-                      value.isEmpty ? AppStrings.loginTxtErrorEmail : null,
+                  validator: (value) => value.length < 6
+                      ? AppStrings.loginTxtErrorPassword
+                      : null,
                   decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                      labelText: AppStrings.loginTxtEmail,
-                      border: OutlineInputBorder()),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: TextFormField(
-                    obscureText: true,
-                    maxLength: 12,
-                    controller: _passwordController,
-                    style: Theme.of(context).textTheme.body1,
-                    validator: (value) => value.length < 6
-                        ? AppStrings.loginTxtErrorPassword
-                        : null,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.lock,
-                          color: Theme.of(context).iconTheme.color,
-                        ),
-                        labelText: AppStrings.loginTxtPassword,
-                        border: OutlineInputBorder()),
+                    prefixIcon: Icon(
+                      Icons.lock,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    labelText: AppStrings.loginTxtPassword,
+                    border: OutlineInputBorder(),
                   ),
                 ),
-                authProvider.status == Status.Authenticating
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : RaisedButton(
-                        child: Text(
-                          AppStrings.loginBtnSignIn,
-                          style: Theme.of(context).textTheme.button,
-                        ),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            FocusScope.of(context)
-                                .unfocus(); //to hide the keyboard - if any
+              ),
+              authProvider.status == Status.Authenticating
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : RaisedButton(
+                      child: Text(
+                        AppStrings.loginBtnSignIn,
+                        style: Theme.of(context).textTheme.button,
+                      ),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          FocusScope.of(context)
+                              .unfocus(); //to hide the keyboard - if any
 
-                            bool status =
-                                await authProvider.signInWithEmailAndPassword(
-                                    _emailController.text,
-                                    _passwordController.text);
+                          bool status =
+                              await authProvider.signInWithEmailAndPassword(
+                                  _emailController.text,
+                                  _passwordController.text);
 
-                            if (!status) {
-                              _scaffoldKey.currentState.showSnackBar(SnackBar(
+                          if (!status) {
+                            _scaffoldKey.currentState.showSnackBar(
+                              SnackBar(
                                 content: Text(AppStrings.loginTxtErrorSignIn),
-                              ));
-                            }
+                              ),
+                            );
                           }
-                        }),
-                authProvider.status == Status.Authenticating
-                    ? Center(
-                        child: null,
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 48),
-                        child: Center(
-                            child: Text(
+                        }
+                      },
+                    ),
+              authProvider.status == Status.Authenticating
+                  ? Center(
+                      child: null,
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 48),
+                      child: Center(
+                        child: Text(
                           AppStrings.loginTxtDontHaveAccount,
                           style: Theme.of(context).textTheme.button,
-                        )),
+                        ),
                       ),
-                authProvider.status == Status.Authenticating
-                    ? Center(
-                        child: null,
-                      )
-                    : FlatButton(
-                        child: Text(AppStrings.loginBtnLinkCreateAccount),
-                        textColor: Theme.of(context).iconTheme.color,
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(Routes.register);
-                        },
-                      ),
-              ],
-            ),
+                    ),
+              authProvider.status == Status.Authenticating
+                  ? Center(
+                      child: null,
+                    )
+                  : FlatButton(
+                      child: Text(AppStrings.loginBtnLinkCreateAccount),
+                      textColor: Theme.of(context).iconTheme.color,
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.register);
+                      },
+                    ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _buildBackground() {
