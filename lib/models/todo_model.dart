@@ -6,11 +6,12 @@ class TodoModel {
   final String extraNote;
   final bool complete;
 
-  TodoModel(
-      {@required this.id,
-      @required this.task,
-      this.extraNote,
-      @required this.complete});
+  TodoModel({
+    @required this.id,
+    @required this.task,
+    this.extraNote,
+    @required this.complete,
+  });
 
   factory TodoModel.fromMap(Map<String, dynamic> data, String documentId) {
     if (data == null) {

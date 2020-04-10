@@ -26,7 +26,7 @@ class TodosScreen extends StatelessWidget {
             builder: (context, snapshot) {
               final UserModel user = snapshot.data;
               return Text(user != null
-                  ? user.email + " - " + AppStrings.homeAppBarTitle
+                  ? "Welcome " + user.email
                   : AppStrings.homeAppBarTitle);
             }),
         actions: <Widget>[
@@ -61,7 +61,9 @@ class TodosScreen extends StatelessWidget {
         },
       ),
       body: WillPopScope(
-          onWillPop: () async => false, child: _buildBodySection(context)),
+        onWillPop: () async => true,
+        child: _buildBodySection(context),
+      ),
     );
   }
 
@@ -140,7 +142,9 @@ class TodosScreen extends StatelessWidget {
               message: AppStrings.todosErrorBottomMsgTxt,
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 }
