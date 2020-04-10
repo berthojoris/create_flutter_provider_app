@@ -21,13 +21,19 @@ class TodosScreen extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         title: StreamBuilder(
             stream: authProvider.user,
             builder: (context, snapshot) {
               final UserModel user = snapshot.data;
-              return Text(user != null
-                  ? "Welcome " + user.email
-                  : AppStrings.homeAppBarTitle);
+              return Text(
+                user != null
+                    ? "Welcome, " + user.email
+                    : AppStrings.homeAppBarTitle,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              );
             }),
         actions: <Widget>[
           StreamBuilder(
