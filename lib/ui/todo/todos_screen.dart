@@ -51,10 +51,17 @@ class TodosScreen extends StatelessWidget {
             },
           ),
           IconButton(
-              icon: Icon(Icons.settings),
-              onPressed: () {
-                Navigator.of(context).pushNamed(Routes.setting);
-              }),
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Routes.setting);
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.add_shopping_cart),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Routes.add_to_cart);
+            },
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

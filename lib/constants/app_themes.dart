@@ -9,9 +9,9 @@ class AppThemes {
   static const Color _lightPrimaryVariantColor = Colors.white;
   static const Color _lightSecondaryColor = Colors.green;
   static const Color _lightOnPrimaryColor = Colors.black;
-  static const Color _lightButtonPrimaryColor = Colors.orangeAccent;
-  static const Color _lightAppBarColor = Colors.orangeAccent;
-  static Color _lightIconColor = Colors.orangeAccent;
+  static const Color _lightButtonPrimaryColor = Colors.teal;
+  static const Color _lightAppBarColor = Colors.teal;
+  static Color _lightIconColor = Colors.teal;
   static Color _lightSnackBarBackgroundErrorColor = Colors.redAccent;
 
   // TEXT THEME FOR LIGHT THEME
@@ -82,7 +82,7 @@ class AppThemes {
 
   // =========================================== THE LIGHT THEME ===========================================
   static final ThemeData lightTheme = ThemeData(
-    fontFamily: AppFontFamily.productSans,
+    fontFamily: AppFontFamily.poppins,
     scaffoldBackgroundColor: _lightPrimaryVariantColor,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: _lightButtonPrimaryColor,
@@ -125,7 +125,7 @@ class AppThemes {
 
   // =========================================== THE DARK THEME ===========================================
   static final ThemeData darkTheme = ThemeData(
-    fontFamily: AppFontFamily.productSans,
+    fontFamily: AppFontFamily.poppins,
     scaffoldBackgroundColor: _darkPrimaryVariantColor,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: _darkButtonPrimaryColor,
