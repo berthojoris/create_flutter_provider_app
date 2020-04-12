@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:noteapp/providers/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class AddToCart extends StatefulWidget {
-  // AddToCart({Key key}) : super(key: key);
-
   @override
   _AddToCartState createState() => _AddToCartState();
 }
@@ -10,6 +10,8 @@ class AddToCart extends StatefulWidget {
 class _AddToCartState extends State<AddToCart> {
   @override
   Widget build(BuildContext context) {
+    final dataCart = Provider.of<CartProvider>(context, listen: false);
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -49,19 +51,36 @@ class _AddToCartState extends State<AddToCart> {
             preferredSize: Size.fromHeight(30.0),
           ),
           actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Icon(Icons.add_alert),
+            IconButton(
+              icon: Icon(Icons.delete_forever),
+              onPressed: () {
+                print("DELETE ALL");
+                dataCart.clearCart();
+              },
             ),
           ],
         ),
         body: TabBarView(
           children: <Widget>[
-            Container(
-              child: Center(
-                child: Text('Tab Cart'),
-              ),
-            ),
+            Consumer<CartProvider>(builder: (context, cartNotif, _) {
+              if (cartNotif.total == 0) {
+                return Container(
+                  child: Center(
+                    child: Text(
+                      "Data Kosong",
+                    ),
+                  ),
+                );
+              } else {
+                return Container(
+                  child: Center(
+                    child: Text(
+                      "Data Ada",
+                    ),
+                  ),
+                );
+              }
+            }),
             Container(
               child: Center(
                 child: Text('Tab Investment'),

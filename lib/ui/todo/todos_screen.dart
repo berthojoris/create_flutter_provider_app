@@ -3,6 +3,7 @@ import 'package:noteapp/constants/app_strings.dart';
 import 'package:noteapp/models/todo_model.dart';
 import 'package:noteapp/models/user_model.dart';
 import 'package:noteapp/providers/auth_provider.dart';
+import 'package:noteapp/providers/cart_provider.dart';
 import 'package:noteapp/routes.dart';
 import 'package:noteapp/services/firestore_database.dart';
 import 'package:noteapp/ui/todo/empty_content.dart';
@@ -17,6 +18,7 @@ class TodosScreen extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
     final firestoreDatabase =
         Provider.of<FirestoreDatabase>(context, listen: false);
+    final check = Provider.of<CartProvider>(context, listen: false);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -56,11 +58,43 @@ class TodosScreen extends StatelessWidget {
               Navigator.of(context).pushNamed(Routes.setting);
             },
           ),
-          IconButton(
-            icon: Icon(Icons.add_shopping_cart),
-            onPressed: () {
-              Navigator.of(context).pushNamed(Routes.add_to_cart);
-            },
+          Padding(
+            padding: EdgeInsets.only(top: 3),
+            child: Stack(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(Routes.add_to_cart),
+                ),
+                // =============================================================
+                Consumer<CartProvider>(
+                  builder: (context, cartNotif, _) => Positioned(
+                    right: 8,
+                    top: 8,
+                    child: Container(
+                      padding: EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      constraints: BoxConstraints(
+                        minWidth: 14,
+                        minHeight: 14,
+                      ),
+                      child: Text(
+                        cartNotif.total.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -82,6 +116,8 @@ class TodosScreen extends StatelessWidget {
   Widget _buildBodySection(BuildContext context) {
     final firestoreDatabase =
         Provider.of<FirestoreDatabase>(context, listen: false);
+
+    var cart = Provider.of<CartProvider>(context, listen: false);
 
     return StreamBuilder(
       stream: firestoreDatabase.todosStream(),
@@ -130,17 +166,21 @@ class TodosScreen extends StatelessWidget {
                       value: todos[index].complete,
                       onChanged: (value) {
                         TodoModel todo = TodoModel(
-                            id: todos[index].id,
-                            task: todos[index].task,
-                            extraNote: todos[index].extraNote,
-                            complete: value);
+                          id: todos[index].id,
+                          task: todos[index].task,
+                          extraNote: todos[index].extraNote,
+                          complete: value,
+                        );
                         firestoreDatabase.setTodo(todo);
                       },
                     ),
                     title: Text(todos[index].task),
                     onTap: () {
-                      Navigator.of(context).pushNamed(Routes.create_edit_todo,
-                          arguments: todos[index]);
+                      cart.addProduct(todos[index]);
+                      Navigator.of(context).pushNamed(
+                        Routes.create_edit_todo,
+                        arguments: todos[index],
+                      );
                     },
                   ),
                 );

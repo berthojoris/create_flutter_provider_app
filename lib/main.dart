@@ -5,6 +5,7 @@ import 'package:noteapp/constants/app_strings.dart';
 import 'package:noteapp/constants/app_themes.dart';
 import 'package:noteapp/models/user_model.dart';
 import 'package:noteapp/providers/auth_provider.dart';
+import 'package:noteapp/providers/cart_provider.dart';
 import 'package:noteapp/providers/theme_provider.dart';
 import 'package:noteapp/routes.dart';
 import 'package:noteapp/services/firestore_database.dart';
@@ -28,6 +29,9 @@ void main() {
           ),
           ChangeNotifierProvider<AuthProvider>(
             create: (context) => AuthProvider(),
+          ),
+          ChangeNotifierProvider<CartProvider>(
+            create: (context) => CartProvider(),
           ),
         ],
         child: MyApp(
