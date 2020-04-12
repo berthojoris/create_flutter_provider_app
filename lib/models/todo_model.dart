@@ -23,7 +23,11 @@ class TodoModel {
     bool complete = data['complete'];
 
     return TodoModel(
-        id: documentId, task: task, extraNote: extraNote, complete: complete);
+      id: documentId,
+      task: task,
+      extraNote: extraNote,
+      complete: complete,
+    );
   }
 
   Map<String, dynamic> toMap() {
