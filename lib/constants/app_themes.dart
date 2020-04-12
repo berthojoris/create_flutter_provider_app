@@ -8,10 +8,10 @@ class AppThemes {
   static const Color _lightPrimaryColor = Colors.black;
   static const Color _lightPrimaryVariantColor = Colors.white;
   static const Color _lightSecondaryColor = Colors.green;
-  static const Color _lightOnPrimaryColor = Colors.black;
-  static const Color _lightButtonPrimaryColor = Colors.teal;
-  static const Color _lightAppBarColor = Colors.teal;
-  static Color _lightIconColor = Colors.teal;
+  static const Color _lightOnPrimaryColor = Colors.black; // HEADER PUTIH
+  static const Color _lightButtonPrimaryColor = Colors.blue;
+  static const Color _lightAppBarColor = Colors.blue;
+  static Color _lightIconColor = Colors.blue;
   static Color _lightSnackBarBackgroundErrorColor = Colors.redAccent;
 
   // TEXT THEME FOR LIGHT THEME

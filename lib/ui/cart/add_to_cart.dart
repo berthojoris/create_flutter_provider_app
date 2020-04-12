@@ -59,22 +59,22 @@ class _AddToCartState extends State<AddToCart> {
           children: <Widget>[
             Container(
               child: Center(
-                child: Text('Tab 1'),
+                child: Text('Tab Cart'),
               ),
             ),
             Container(
               child: Center(
-                child: Text('Tab 2'),
+                child: Text('Tab Investment'),
               ),
             ),
             Container(
               child: Center(
-                child: Text('Tab 3'),
+                child: Text('Tab Your Earning'),
               ),
             ),
             Container(
               child: Center(
-                child: Text('Tab 4'),
+                child: Text('Tab Current Balance'),
               ),
             ),
           ],
